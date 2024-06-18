@@ -4,11 +4,12 @@ import News from './components/News';
 import { Routes, Route } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import Favorites from './components/Favorites';
+import NewsDetail from './components/NewsDetail';
 import { FavoritesProvider } from './components/FavoritesContext';
 
 const App = () => {
   const pageSize = 5;
-  const apiKey = process.env.REACT_APP_NEWS_API; // Replace with your actual API key
+  const apiKey = "41f4d656dd5b4edbbe3598ee682e1cfa"; 
   const [progress, setProgress] = useState(0);
 
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/sports" element={<News apiKey={apiKey} setProgress={setProgress} key="sports" pageSize={pageSize} country="in" category="sports" />} />
           <Route path="/technology" element={<News apiKey={apiKey} setProgress={setProgress} key="technology" pageSize={pageSize} country="in" category="technology" />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/news-detail" element={<NewsDetail />} />
         </Routes>
       </FavoritesProvider>
     </div>
