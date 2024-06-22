@@ -9,7 +9,7 @@ import { FavoritesProvider } from './components/FavoritesContext';
 
 const App = () => {
   const pageSize = 5;
-  const apiKey = "41f4d656dd5b4edbbe3598ee682e1cfa"; 
+  const apiKey = "ffc18bba979d2d488148ea945515b285"; 
   const [progress, setProgress] = useState(0);
 
   return (

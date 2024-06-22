@@ -24,20 +24,47 @@ const News = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  const updateNews = async () => {
+  // const updateNews = async () => {
+  //   props.setProgress(10);
+  //   const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+   
+  //   // const apiKey = 'ffc18bba979d2d488148ea945515b285'; 
+
+  //   // const url = `https://gnews.io/api/v4/search?q=example&lang=en&country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pageSize}`;
+  //   // console.log(props.apiKey)
+  //   setLoading(true);
+  //   let data = await fetch(url);
+  //   props.setProgress(30);
+  //   let parsedData = await data.json();
+  //   props.setProgress(70);
+  //   console.log(parsedData)
+  //   setArticles(parsedData.articles);
+  //   setTotalResults(parsedData.totalResults);
+  //   setLoading(false);
+  //   props.setProgress(100);
+  // }
+
+  const updateNews = () => {
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const apikey = 'ffc18bba979d2d488148ea945515b285';
+    const { category } = props;
+    const url = 'https://gnews.io/api/v4/top-headlines?category=' + category + '&lang=en&country=us&max=10&apikey=' + apikey;
     setLoading(true);
-    let data = await fetch(url);
-    props.setProgress(30);
-    let parsedData = await data.json();
-    props.setProgress(70);
-    console.log(parsedData)
-    setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
-    setLoading(false);
+    fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        setArticles(data.articles); // Use setArticles to update the articles state
+        console.log(data.articles);
+        setTotalResults(data.totalResults);
+        setLoading(false);
+      });
     props.setProgress(100);
   }
+
+
+
 
   useEffect(() => {
     document.title = `${capitalizeFirstLetter(props.category)} - NeighborGood News`;
@@ -87,13 +114,13 @@ const News = (props) => {
       {loading && <Spinner />}
       <div className="container">
         <div className="row">
-          {articles.map((element, index) => {
+          {articles && articles.map((element, index) => {
             return (
               <div className="col-md-4" key={index}>
                 <NewsItem
                   title={element.title ? element.title : ""}
                   description={element.description ? element.description : ""}
-                  imageUrl={element.urlToImage}
+                  imageUrl={element.image}
                   newsUrl={element.url}
                   author={element.author}
                   date={element.publishedAt}
